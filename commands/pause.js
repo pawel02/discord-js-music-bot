@@ -9,7 +9,11 @@ module.exports = {
 		const queue = client.player.getQueue(interaction.guildId)
 
         // Check if the queue is empty
-		if (!queue) return await interaction.reply("No songs in the queue");
+		if (!queue)
+		{
+			await interaction.reply("There are no songs in the queue")
+			return;
+		}
 
         // Pause the current song
 		queue.setPaused(true);

@@ -12,7 +12,11 @@ module.exports = {
 		const queue = client.player.getQueue(interaction.guildId)
 
         // If there is no queue, return
-		if (!queue) return await interaction.reply("There are no songs in the queue")
+		if (!queue)
+        {
+            await interaction.reply("There are no songs in the queue");
+            return;
+        }
 
         const currentSong = queue.current
 
