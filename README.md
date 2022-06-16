@@ -7,6 +7,10 @@ TOKEN=xxx
 CLIENT_ID=xxx
 ```
 
+# Running with docker
+
+`docker run -e TOKEN=<your_token_here> -e CLIENT_ID=<your_client_id_here> -d pabolo02345/discord-js-music-bot`
+
 # Commands
 
 - play
