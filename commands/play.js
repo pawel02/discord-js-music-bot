@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
-const { MessageEmbed } = require("discord.js")
+const { EmbedBuilder } = require("discord.js")
 const { QueryType } = require("discord-player")
 
 module.exports = {
@@ -36,7 +36,7 @@ module.exports = {
         // Wait until you are connected to the channel
 		if (!queue.connection) await queue.connect(interaction.member.voice.channel)
 
-		let embed = new MessageEmbed()
+		let embed = new EmbedBuilder()
 
 		if (interaction.options.getSubcommand() === "song") {
             let url = interaction.options.getString("url")
