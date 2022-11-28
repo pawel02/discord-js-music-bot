@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx nodemon index.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "discord-api-types": "^0.37.19",
     "discord-player": "^5.2.2",
     "discord.js": "^14.6.0",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.1",
+    "ffmpeg-static": "^5.1.0"
   }
 }

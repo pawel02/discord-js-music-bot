@@ -1,18 +1,17 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
-const { MessageEmbed } = require("discord.js")
+const { EmbedBuilder } = require("discord.js")
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("queue")
-        .setDescription("shows first 10 songs in the queue"),
+        .setDescription("Zeigt die ersten 10 Lieder in der Warteschlange"),
 
     execute: async ({ client, interaction }) => {
         const queue = client.player.getQueue(interaction.guildId)
 
         // check if there are songs in the queue
-        if (!queue || !queue.playing)
-        {
-            await interaction.reply("There are no songs in the queue");
+        if (!queue || !queue.playing) {
+            await interaction.reply("Die Warteschlange ist leer!");
             return;
         }
 
@@ -26,10 +25,10 @@ module.exports = {
 
         await interaction.reply({
             embeds: [
-                new MessageEmbed()
-                    .setDescription(`**Currently Playing**\n` + 
+                new EmbedBuilder()
+                    .setDescription(`**Gerade am spielen**\n` +
                         (currentSong ? `\`[${currentSong.duration}]\` ${currentSong.title} - <@${currentSong.requestedBy.id}>` : "None") +
-                        `\n\n**Queue**\n${queueString}`
+                        queueString.length ? `\n\n**Warteschlange**\n${queueString}` : ""
                     )
                     .setThumbnail(currentSong.setThumbnail)
             ]

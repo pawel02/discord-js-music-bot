@@ -1,8 +1,6 @@
 require('dotenv').config();
 
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, Routes, REST } = require('discord.js');
 const { Player } = require("discord-player")
 
 const fs = require('fs');
@@ -36,16 +34,11 @@ client.player = new Player(client, {
 
 client.on("ready", () => {
     // Get all ids of the servers
-    const guild_ids = client.guilds.cache.map(guild => guild.id);
-
-
     const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
-    for (const guildId of guild_ids) {
-        rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, guildId),
-            { body: commands })
-            .then(() => console.log('Successfully updated commands for guild ' + guildId))
-            .catch(console.error);
-    }
+    rest.put(Routes.applicationCommands(process.env.CLIENT_ID),
+        { body: commands })
+        .then(() => console.log('Commands successfully updated!'))
+        .catch(console.error);
 });
 
 client.on("interactionCreate", async interaction => {
@@ -59,9 +52,8 @@ client.on("interactionCreate", async interaction => {
     }
     catch (error) {
         console.error(error);
-        await interaction.reply({ content: "There was an error executing this command" });
+        await interaction.reply({ content: "Beim Ausführen des Befehls ist ein Fehler aufgetreten" });
     }
 });
 
 client.login(process.env.TOKEN);
-
