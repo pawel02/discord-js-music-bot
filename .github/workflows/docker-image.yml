@@ -44,7 +44,4 @@ jobs:
           first_ssh: |
             docker image rm premium-bot
             docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_TOKEN }}
-            docker run --env TOKEN=${{ secrets.TOKEN }} --env CLIENT_ID=${{ secrets.CLIENT_ID }} --detach pxlloewe/discord-bot:latest
-            
-            
-
+            docker pull pxlloewe/discord-bot:latest
