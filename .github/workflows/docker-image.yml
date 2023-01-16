@@ -29,3 +29,20 @@ jobs:
           push: true
           tags: |
             pxlloewe/discord-bot:latest
+  download-deploy-image:
+    name: Download and run image on ssh client
+    runs-on: ubuntu-latest
+    steps:
+      - name: login via ssh
+        uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.SSH_USER }}
+          pass: ${{ secrets.SSH_PASSWORD }}
+          first_ssh: |
+            docker image rm premium-bot
+            docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_TOKEN }}
+            docker run --env TOKEN=${{ secrets.TOKEN }} --env CLIENT_ID=${{ secrets.CLIENT_ID }} pxlloewe/discord-bot:latest -d
+            
+            
+
