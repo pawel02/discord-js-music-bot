@@ -21,4 +21,3 @@ jobs:
           USERNAME: ${{ secrets.DOCKER_USERNAME }}
           PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           TAG_NAME: "v0.0.1"
-          BUILDX: "true"
