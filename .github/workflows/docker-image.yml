@@ -16,5 +16,5 @@ jobs:
       - name: remove old container and images
         run: |
             docker image rm pxlloewe/discord-bot
-      - name: pull new image
-        run: docker pull pxlloewe/discord-bot:latest
+      - name: run new image
+        run: docker run --env TOKEN=${{ secrets.TOKEN }} --env CLIENT_ID=${{ secrets.CLIENT_ID }} --detach pxlloewe/discord-bot:latest
