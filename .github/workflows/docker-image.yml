@@ -16,7 +16,7 @@ jobs:
       - name: Build & Push to Docker Hub
         uses: docker/build-push-action@v1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: pxlloewe/discord-bot
+          username: "PxlLoewe"
+          password: "bn^qPv.3p_/fFF&"
+          repository: "pxlloewe/discord-bot"
           tags: latest, ${{ github.run_number }}
