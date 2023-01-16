@@ -15,7 +15,6 @@ jobs:
         run: docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_TOKEN }}
       - name: remove old container and images
         run: |
-            docker ps -a -q  --filter ancestor=pxlloewe/premium-bot
-            docker image rm pxlloewe/premium-bot
+            docker image rm pxlloewe/discord-bot
       - name: pull new image
         run: docker pull pxlloewe/discord-bot:latest
