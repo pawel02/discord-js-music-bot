@@ -15,6 +15,7 @@ jobs:
         run: docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_TOKEN }}
       - name: remove old container and images
         run: |
-            docker image rm pxlloewe/discord-bot
+            docker image rm pxlloewe/discord-bot || true
+            docker container rm discord-bot || true
       - name: run new image
-        run: docker run --env TOKEN=${{ secrets.TOKEN }} --env CLIENT_ID=${{ secrets.CLIENT_ID }} --detach pxlloewe/discord-bot:latest
+        run: docker run --env TOKEN=${{ secrets.APP_TOKEN }} --env CLIENT_ID=${{ secrets.APP_CLIENT_ID }} --detach --name discord-bot pxlloewe/discord-bot:latest
