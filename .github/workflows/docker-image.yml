@@ -40,4 +40,4 @@ jobs:
             docker container rm pxlloewe/discord-bot || true
             docker image rm discord-bot || true
       - name: run new image
-        run: docker run --env TOKEN=${{ secrets.APP_TOKEN }} --env CLIENT_ID=${{ secrets.APP_CLIENT_ID }} --detach --name discord-bot pxlloewe/discord-bot:latest
+        run: docker run --env TOKEN=${{ secrets.APP_TOKEN }} --env CLIENT_ID=${{ secrets.APP_CLIENT_ID }} --detach --name discord-bot --restart unless-stopped pxlloewe/discord-bot:latest
