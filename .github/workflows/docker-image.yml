@@ -14,10 +14,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Build & Push to Docker Hub
-        uses: opspresso/action-docker@master
+        uses: docker/build-push-action@v1
         with:
-          args: --docker
-        env:
-          USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          TAG_NAME: "v0.0.1"
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: pxlloewe/discord-bot
+          tags: latest, ${{ github.run_number }}
