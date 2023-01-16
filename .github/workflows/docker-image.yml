@@ -32,11 +32,12 @@ jobs:
   download-deploy-image:
     name: Download and run image on ssh client
     runs-on: ubuntu-latest
+    needs: build-container
     steps:
       - name: login via ssh
         uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
         with:
-          host: ${{ secrets.HOST }}
+          host: ${{ secrets.SSH_HOST }}
           user: ${{ secrets.SSH_USER }}
           pass: ${{ secrets.SSH_PASSWORD }}
           first_ssh: |
