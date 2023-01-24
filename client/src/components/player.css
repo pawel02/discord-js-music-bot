@@ -1,0 +1,70 @@
+.player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 1rem;
+}
+
+.player .thumbnail-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    height: 450px;
+    width: 450px;
+    align-items: center;
+    padding: 1rem;
+    z-index: 2;
+    margin-bottom: 2rem;
+    background-color: #0A1122;
+    box-shadow: 0 5px 5px rgb(0, 0, 0, 25%);
+    border-radius: .5rem;
+    /* border: 5px solid #FCB92F; */
+}
+.player .thumbnail-container p.title {
+    position: absolute;
+    top: 20px;
+    text-align: center;
+}
+
+.player .thumbnail-container p.author {
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+}
+.thumbnail-container .progress-bar{
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    height: 5px;
+    background-color: #FCB92F;
+    transition: width ease .5s;
+}
+
+.progress-ring circle {
+    stroke-dasharray: 10 20;
+  }
+
+.player img{
+    z-index: 0;
+    object-fit: cover;
+    width: 250px;
+    height: 250px;
+}
+.controlls{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 450px;
+}
+.controlls button{
+    width: 150px;
+    color: #FF8E35 !important;
+    stroke: #FF8E35;
+}
+
+.play-pause-button{
+    width: 100px !important;
+    height: 100px;
+    border-radius: 50% !important;
+}

@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  mongo: 
+    container_name: mongo-dev
+  server:
+    build: 
+      dockerfile: Dockerfile.dev
+    container_name: server-dev
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    ports:
+      - 3001:3001
+    env_file:
+      - ./server/.env.dev
+  client:
+    build: 
+      dockerfile: Dockerfile.dev
+    container_name: client-dev
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+    env_file:
+      - ./client/.env.dev
+    environment:
+      - WATCHPACK_POLLING=true

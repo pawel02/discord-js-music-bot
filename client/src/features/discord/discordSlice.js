@@ -4,7 +4,7 @@ export const discordApi = baseApi.injectEndpoints({
     reducerPath: "discord",
     endpoints: (builder) => ({
         getGuilds: builder.query({
-            query: () => "/guilds"
+            query: () => "/discord/guilds"
         })
     })
 })
