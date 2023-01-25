@@ -15,6 +15,8 @@ module.exports = {
         }
 
         // Pause the current song
+        client.player.emit("pausedChanged", queue, false)
+
         queue.setPaused(false);
 
         await interaction.reply("Der player wird fortgesetzt")

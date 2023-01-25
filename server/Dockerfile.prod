@@ -1,8 +1,5 @@
 FROM alpine
-
-WORKDIR /usr/src/app
-
-COPY package*.json ./
+WORKDIR /app
 
 RUN apk add --update --no-cache nodejs npm ffmpeg \
     make \
@@ -11,8 +8,10 @@ RUN apk add --update --no-cache nodejs npm ffmpeg \
     cairo-dev \
     giflib-dev \
     pango-dev && \
-    npm install -g node-gyp && \
-    npm install
+    npm install -g node-gyp
+
+COPY package*.json ./
+RUN npm install
 COPY . .
 
-CMD [ "node", "index.js" ]
+CMD [ "npm", "start" ]

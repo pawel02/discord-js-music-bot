@@ -17,6 +17,7 @@ module.exports = {
             return option.setName("mode")
                 .setDescription("Wiederholungsmodus")
                 .addChoices(...repeatModes)
+                .setRequired(true)
         }),
 
     execute: async ({ client, interaction }) => {
@@ -32,7 +33,6 @@ module.exports = {
 
         // Skip the current song
         const mode = interaction.options.getString("mode")
-        console.log(parseInt(mode))
         queue.setRepeatMode(parseInt(mode))
 
         // Return an embed to the user saying the song has been skipped

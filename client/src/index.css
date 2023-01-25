@@ -1,0 +1,188 @@
+@font-face {
+  font-family: noto-extraBold;
+  src: url('../public/fonts/NotoSans-ExtraBold.ttf');
+}
+
+@font-face {
+  font-family: noto-regular;
+  src: url('../public/fonts/NotoSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: noto-medium;
+  src: url('../public/fonts/NotoSans-Medium.ttf');
+}
+
+@font-face {
+  font-family: noto-light;
+  src: url('../public/fonts/NotoSans-Light.ttf');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0A1122;
+}
+
+.text,
+p {
+  color: #fff;
+  font-family: noto-light;
+  line-height: 30px;
+  letter-spacing: 0.25em;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  height: 80px;
+  width: 270px;
+  cursor: pointer;
+  font-family: noto-regular;
+  font-size: 22px;
+  letter-spacing: .25rem;
+}
+
+button.primary {
+  background: linear-gradient(89.63deg, #FF8E35 0.64%, #FCB92F 99.45%);
+  border-radius: 15px;
+}
+
+button.secondary {
+  background: linear-gradient(89.63deg, #FF8E35 0.64%, #FCB92F 99.45%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  border: 2px solid #FF8E35;
+  border-radius: 15px;
+}
+
+input[type=text],
+input[type=url] {
+  border: 1px solid #b1b1b1;
+  outline: none;
+  border-radius: 3px;
+  padding: 8px;
+  margin-top: 5px;
+  transition: ease 500ms;
+  width: calc(100% - 19px);
+  background-color: #0A1122;
+  color: #b1b1b1;
+}
+
+label {
+  color: rgb(244, 247, 252);
+}
+
+header {
+  margin: 1rem 0;
+  padding: 1rem 2rem;
+  background-color: #1A2C58;
+  z-index: 1000;
+}
+
+header ul {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: 1.3rem;
+  filter: drop-shadow(6px 6px 6px rgba(0, 0, 0, 0.25));
+}
+
+.error {
+  color: #c4291e;
+}
+
+h1 {
+  text-transform: uppercase;
+  font-family: noto-extraBold;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 85px;
+  line-height: 116px;
+  letter-spacing: 0.5em;
+  background: linear-gradient(89.63deg, #FF8E35 0.64%, #FCB92F 99.45%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+h2 {
+  font-family: noto-extraBold;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 70px;
+  line-height: 95px;
+  letter-spacing: 0.5em;
+  background: linear-gradient(89.97deg, #AE58CE 13.03%, #CE62B7 68.85%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+h3 {
+  font-family: noto-medium;
+  font-size: 25px;
+  letter-spacing: .5em;
+  color: #fff;
+}
+
+img {
+  z-index: 5;
+  max-width: 100%;
+  height: auto
+}
+
+.center {
+  text-align: center;
+}
+
+section {
+  padding: 3rem 0;
+}
+
+section h3:first-child {
+  margin-bottom: 2rem;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}

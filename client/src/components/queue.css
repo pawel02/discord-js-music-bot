@@ -1,0 +1,28 @@
+.queue {
+    overflow-y: auto;
+}
+.queue form {
+    width: 100%;
+}
+.add-track{
+    background-color: #1a2c58;
+    padding: 1rem;
+}
+.track{
+    display: flex;
+    background-color: #1a2c58;
+    margin-top: 1rem;
+    padding: 1rem;
+}
+.track img{
+    flex: 0;
+    object-fit: cover;
+    width: 150px;
+    height: 100px;
+}
+.track .text{
+    margin-left: 1rem;
+}
+.track .text *{
+    text-overflow: clip;
+}

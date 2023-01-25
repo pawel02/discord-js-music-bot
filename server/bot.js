@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const { Client, GatewayIntentBits, Collection, Routes, REST } = require('discord.js');
 const { Player } = require("discord-player")
 
@@ -9,6 +7,7 @@ const path = require('path');
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates]
 });
+const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
 // List of all commands
 const commands = [];
@@ -34,8 +33,7 @@ client.player = new Player(client, {
 
 client.on("ready", () => {
     // Get all ids of the servers
-    const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
-    rest.put(Routes.applicationCommands(process.env.CLIENT_ID),
+    rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
         { body: commands })
         .then(() => console.log('Commands successfully updated!'))
         .catch(console.error);
@@ -57,3 +55,8 @@ client.on("interactionCreate", async interaction => {
 });
 
 client.login(process.env.TOKEN);
+
+module.exports = {
+    client,
+    rest
+}
