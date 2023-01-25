@@ -1,20 +1,25 @@
-name: Auto deploy Docker + server
+name: Auto update docker
 
 on:
   push:
     branches: [ "main" ]
+  merge:
+    branches: [ "main" ]
 
 jobs:
-  download-deploy-image:
+  download-deploy-files:
     name: Download and run image on ssh client
     runs-on: self-hosted
     steps:
-      - name: login to docker hub
-        run: docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_TOKEN }}
+      - name: update local files
+        run: |
+          cd /home/pi/discord-js-music-bot
+          git pull origin --ff-only
       - name: remove old container and images
         run: |
-            docker stop discord-bot || true
-            docker container rm discord-bot || true
-            docker image rm pxlloewe/discord-bot || true
-      - name: run new image
-        run: docker run --env TOKEN=${{ secrets.APP_TOKEN }} --env CLIENT_ID=${{ secrets.APP_CLIENT_ID }} --detach --name discord-bot --restart unless-stopped pxlloewe/discord-bot:latest
+          cd /home/pi/discord-js-music-bot
+          docker stop discord-bot || true
+          docker container rm premiumbot-client-prod || true
+          docker container rm premiumbot-server-prod || true
+      - name: run new application
+        run: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
