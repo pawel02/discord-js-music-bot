@@ -1,13 +1,18 @@
 .guild-list{
     display: flex;
-    width: 6em;
     max-height: calc(100vh - 1rem);
-    flex-direction: column;
+    flex-direction: row;
     padding: .5rem;
     overflow-y: auto;
     list-style: none;
 }
 
 .guild-list li{
-    margin-bottom: 1rem;
+    margin-left: 1rem;
+}
+.guild-list li img{
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+    border-radius: 1rem;
 }

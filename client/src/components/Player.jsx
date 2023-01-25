@@ -3,7 +3,7 @@ import { useSetPausedMutation, useGetPlayerQuery, useSkipMutation } from '../fea
 import React from 'react'
 import "./player.css"
 import { useEffect, useState } from 'react'
-import { GrPlayFill, GrPauseFill, GrNext, GrRotateLeft } from "react-icons/gr"
+import { GrPlayFill, GrPauseFill, GrRotateLeft } from "react-icons/gr"
 import { MdSkipNext } from "react-icons/md"
 
 const toSeconds = time => {

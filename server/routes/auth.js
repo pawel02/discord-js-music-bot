@@ -12,7 +12,7 @@ Router.post("/login", async (req, res) => {
         params.append('client_secret', process.env.DISCORD_OAUTH_SECRET)
         params.append('grant_type', 'authorization_code')
         params.append('code', code)
-        params.append('redirect_uri', "http://localhost:3000/redirect")
+        params.append('redirect_uri', process.env.REDIRECT_URI)
         const headers = {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
@@ -67,7 +67,7 @@ Router.post("/login", async (req, res) => {
         })
 
     } catch (error) {
-        console.log(error.message)
+        console.log(error.response.data || error.message)
         res.sendStatus(500)
     }
 })
