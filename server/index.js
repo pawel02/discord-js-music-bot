@@ -16,7 +16,7 @@ const httpServer = require("http").createServer(app)
 
 const io = new SocketIOServer(httpServer, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: process.env.BASE_CLIENT_URL,
         allowedHeaders: ["auth"],
         credentials: true
       }})
