@@ -7,7 +7,7 @@
     flex: 1 1;
 }
 .queue{
-    flex: 1 1;
+    flex: 1 1 250px;
 }
 .queue ul{
     list-style: none;
