@@ -3,8 +3,6 @@ name: Auto update docker
 on:
   push:
     branches: [ "main" ]
-  merge:
-    branches: [ "main" ]
 
 jobs:
   download-deploy-files:
@@ -24,3 +22,4 @@ jobs:
         run: |
         cd /home/pi/discord-js-music-bot
         docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
