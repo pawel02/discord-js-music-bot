@@ -2,6 +2,7 @@ version: '3'
 
 services:
   mongo:
+    image: mongo:4.4.18
     container_name: mongo-prod
     restart: unless-stopped
   server:

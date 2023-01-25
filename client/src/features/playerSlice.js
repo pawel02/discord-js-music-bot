@@ -13,7 +13,7 @@ const playerSlice = baseApi.injectEndpoints({
                 { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) => {
                 try {
                     await cacheDataLoaded
-                    const socket = io(`http://localhost:3001/player`, {
+                    const socket = io(`${process.env.REACT_APP_SERVER_URL}/player`, {
                         withCredentials: true,
                         auth: {
                             token,
@@ -60,7 +60,7 @@ const playerSlice = baseApi.injectEndpoints({
                 { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) => {
                 try {
                     await cacheDataLoaded
-                    const socket = io(`http://localhost:3001/player`, {
+                    const socket = io(`${process.env.REACT_APP_SERVER_URL}/player`, {
                         withCredentials: true,
                         auth: {
                             token,

@@ -75,7 +75,7 @@ export const Player = ({ serverId }) => {
                     <img src={playerData?.current.thumbnail} />
                     <p className='author'>{playerData?.current.author}<br />
                     {songProgress?.currentInS && `${toString(songProgress.currentInS)} / ${toString(songProgress.endInS)}`}</p>
-                    <div class="progress-bar" style={{width: `${songProgress?.percent}%`}}></div>
+                    <div className='progress-bar' style={{width: `${songProgress?.percent}%`}}></div>
                 </div>
                 <div className='controlls'>
                     <button className='secondary'><GrRotateLeft /></button>
