@@ -1,6 +1,5 @@
 import { baseApi } from "./api";
 import { io } from "socket.io-client"
-import { createEntityAdapter } from "@reduxjs/toolkit";
 
 const playerSlice = baseApi.injectEndpoints({
     reducerPath: "player",
@@ -11,29 +10,24 @@ const playerSlice = baseApi.injectEndpoints({
             providesTags: ["player"],
             onCacheEntryAdded: async ({ serverId, token },
                 { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) => {
+                await cacheDataLoaded
+                const socket = io(`${process.env.REACT_APP_SERVER_URL}/player`, {
+                    withCredentials: true,
+                    auth: {
+                        token,
+                    }
+                })
                 try {
-                    await cacheDataLoaded
-                    const socket = io(`${process.env.REACT_APP_SERVER_URL}/player`, {
-                        withCredentials: true,
-                        auth: {
-                            token,
-                        }
-                    })
 
                     socket.on("connect", () => {
                         socket.emit("subscribe", { serverId })
-                        socket.on("pausedChanged", state => {
+                        socket.on("pausedChanged", (state, timestamp) => {
                             updateCachedData((draft) => {
                                 draft.isPaused = state
+                                draft.timestamp = timestamp
                             })
                         })
-                        socket.on("trackAdd", (queue, track) => {
-                            updateCachedData((draft) => {
-                                draft.isPlaying = true
-                            })
-                        })
-                        socket.on("trackStart", (queue, track, timestamp, repeatMode) => {
-                            console.log("trackStart", queue, track)
+                        socket.on("trackStart", (track, timestamp, repeatMode) => {
                             updateCachedData((draft) => {
                                 draft.current = track
                                 draft.isPaused = false
@@ -47,25 +41,30 @@ const playerSlice = baseApi.injectEndpoints({
                                 draft.current = null
                             })
                         })
+                        socket.on("trackEnd", () => {
+                            updateCachedData((draft) => {
+                                draft.isPlaying = false
+                            })
+                        })
                     })
                 } catch { }
                 await cacheEntryRemoved
-                io.disconnect()
+                socket.disconnect()
             }
         }),
         getQueue: builder.query({
-            query: ({serverId}) => `/player/${serverId}/queue`,
+            query: ({ serverId }) => `/player/${serverId}/queue`,
             providesTags: ["queue"],
             onCacheEntryAdded: async ({ serverId, token },
                 { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) => {
+                await cacheDataLoaded
+                const socket = io(`${process.env.REACT_APP_SERVER_URL}/player`, {
+                    withCredentials: true,
+                    auth: {
+                        token,
+                    }
+                })
                 try {
-                    await cacheDataLoaded
-                    const socket = io(`${process.env.REACT_APP_SERVER_URL}/player`, {
-                        withCredentials: true,
-                        auth: {
-                            token,
-                        }
-                    })
 
                     socket.on("connect", () => {
                         socket.emit("subscribe", { serverId })
@@ -74,23 +73,33 @@ const playerSlice = baseApi.injectEndpoints({
                                 draft.isPaused = state
                             })
                         })
-                        socket.on("trackAdd", (queue, track, tracks) => {
+                        socket.on("tracksAdd", (tracks) => {
+                            console.log("tracks added")
+                            updateCachedData((draft) => {
+                                draft.tracks = [...draft?.tracks || [], ...tracks]
+                            })
+                        })
+                        socket.on("trackAdd", (track) => {
                             console.log("track added")
                             updateCachedData((draft) => {
                                 draft.tracks = [...draft?.tracks || [], track]
                             })
                         })
-                        socket.on("trackStart", (queue, track, timestamp, repeatMode, tracks) => {
+                        socket.on("trackStart", () => {
                             console.log("track added")
                             updateCachedData((draft) => {
-                                draft.tracks = tracks
-                                draft.isPaused = false
+                                draft.tracks = draft.tracks.filter((t, index) => index !== 0)
+                            })
+                        })
+                        socket.on("queueEnd", () => {
+                            updateCachedData((draft) => {
+                                draft.tracks = []
                             })
                         })
                     })
                 } catch { }
                 await cacheEntryRemoved
-                io.disconnect()
+                socket.disconnect()
             }
         }),
         setPaused: builder.mutation({
@@ -102,17 +111,17 @@ const playerSlice = baseApi.injectEndpoints({
             invalidatesTags: []
         }),
         skip: builder.mutation({
-            query: ({serverId}) => ({
+            query: ({ serverId }) => ({
                 url: `/player/${serverId}/skip`,
                 method: "POST"
             }),
             invalidatesTags: []
         }),
         addTrack: builder.mutation({
-            query: ({serverId, url}) => ({
+            query: ({ serverId, url }) => ({
                 url: `/player/${serverId}/addTrack`,
                 method: "PUT",
-                body: {url}
+                body: { url }
             })
         })
     })

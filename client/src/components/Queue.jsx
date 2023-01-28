@@ -27,9 +27,9 @@ export const Queue = ({ serverId }) => {
                 </form>
             </div>
             <ul>
-                {queryData?.tracks?.map(track => {
+                {queryData?.tracks?.map((track, index) => {
                     return (
-                        <li key={track.id}>
+                        <li key={index}>
                             <div className='track'>
                                 <img src={track.thumbnail} />
                                 <div className='text'>

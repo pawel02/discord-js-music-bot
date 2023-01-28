@@ -65,6 +65,11 @@ a {
 }
 
 button {
+  cursor: pointer;
+  font-family: noto-regular;
+}
+
+button.big {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -72,8 +77,6 @@ button {
   gap: 10px;
   height: 80px;
   width: 270px;
-  cursor: pointer;
-  font-family: noto-regular;
   font-size: 22px;
   letter-spacing: .25rem;
 }
@@ -141,7 +144,6 @@ h1 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
 }
 
 h2 {
@@ -155,7 +157,6 @@ h2 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
 }
 
 h3 {

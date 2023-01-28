@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken")
 
 Router.post("/login", async (req, res) => {
     try {
-        console.log(req.body)
         const { code } = req.body
         const params = new URLSearchParams();
         params.append('client_id', process.env.DISCORD_CLIENT_ID)
@@ -17,48 +16,35 @@ Router.post("/login", async (req, res) => {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
         const { data: authData } = await axios.post("https://discord.com/api/oauth2/token", params, headers)
-
         const { data: discordUser } = await axios.get("https://discord.com/api/users/@me", {
             headers: {
                 "Authorization": `Bearer ${authData.access_token}`
             }
         })
 
-        const existingUser = await User.findOne({discordId: discordUser.id})
-        var token
-        var user
-        if(existingUser){
-            existingUser.username= discordUser.username
-            existingUser.email= discordUser.email
-            existingUser.discordId= discordUser.id
-            existingUser.discriminator= discordUser.discriminator
-            existingUser.bannerColor= discordUser.banner_color
-            existingUser.avatar= discordUser.avatar
-            existingUser.discordTokens = authData
-        
-            await existingUser.save()
-            user = existingUser
-        } else {
-            const newUser = new User({
-                username: discordUser.username,
-                email: discordUser.email,
-                discordId: discordUser.id,
-                discriminator: discordUser.discriminator,
-                bannerColor: discordUser.banner_color,
-                avatar: discordUser.avatar,
-                guilds: [],
-                discordTokens: authData
-            })
-            
-            await newUser.save()
-            user = newUser
-        }
-        
-        token = jwt.sign(
+        const { data: userGuilds } = await axios.get("https://discord.com/api/users/@me/guilds", {
+            headers: {
+                "authorization": `Bearer ${authData.access_token}`
+            }
+        })
+
+
+        const user = await User.findOneAndUpdate({discordId: discordUser.id}, {
+            username: discordUser.username,
+            email: discordUser.email,
+            discordId: discordUser.id,
+            discriminator: discordUser.discriminator,
+            bannerColor: discordUser.banner_color,
+            avatar: discordUser.avatar,
+            guilds: userGuilds,
+            discordTokens: authData,
+        }, {new: true, upsert: true, setDefaultsOnInsert: true})
+
+        const token = jwt.sign(
             { id: user._id },
             process.env.JWT_SECRET,
             {
-                expiresIn: "2h",
+                expiresIn: "24h",
             }
         );
         res.send({
@@ -67,8 +53,8 @@ Router.post("/login", async (req, res) => {
         })
 
     } catch (error) {
-        console.log(error.response.data || error.message)
-        res.sendStatus(500)
+        console.log(error.message)
+        res.status(500).json({ error: error.name })
     }
 })
 

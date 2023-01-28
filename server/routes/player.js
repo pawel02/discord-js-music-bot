@@ -1,5 +1,4 @@
 const Router = require("express").Router()
-const { AudioPlayerStatus } = require("@discordjs/voice")
 const { client: botClient } = require("../bot")
 const { QueryType } = require("discord-player")
 
@@ -23,11 +22,10 @@ Router.get("/:serverId/queue", (req, res) => {
     const { serverId } = req.params
 
     const guildQueue = botClient.player.getQueue(serverId)
-    const { tracks, previousTracks, current } = guildQueue || {}
+    const { tracks, current } = guildQueue || {}
 
     res.json({
         tracks,
-        previousTracks,
         current,
     })
 })
@@ -91,21 +89,30 @@ const socketHandler = (socket) => {
 }
 const eventEmitter = (playerNamespace, io) => {
     botClient.player.on("trackAdd", (queue, track) => {
-        const { guild, tracks } = queue
-        playerNamespace.to(`subscriber-${guild.id}`).emit("trackAdd", queue, track, tracks)
+        const { guild } = queue
+        playerNamespace.to(`subscriber-${guild.id}`).emit("trackAdd", track)
+    })
+    botClient.player.on("tracksAdd", (queue, tracks) => {
+        const { guild } = queue
+        playerNamespace.to(`subscriber-${guild.id}`).emit("tracksAdd", tracks)
     })
     botClient.player.on("trackStart", (queue, track) => {
-        const { guild, repeatMode, tracks } = queue
+        const { guild, repeatMode } = queue
         const timestamp = queue?.getPlayerTimestamp()
-        playerNamespace.to(`subscriber-${guild.id}`).emit("trackStart", queue, track, timestamp, repeatMode, tracks)
+        playerNamespace.to(`subscriber-${guild.id}`).emit("trackStart", track, timestamp, repeatMode)
+    })
+    botClient.player.on("pausedChanged", (queue, state) => {
+        const { guild } = queue
+        const timestamp = queue?.getPlayerTimestamp()
+        playerNamespace.to(`subscriber-${guild.id}`).emit("pausedChanged", state, timestamp)
+    })
+    botClient.player.on("trackEnd", (queue) => {
+        const { guild } = queue
+        playerNamespace.to(`subscriber-${guild.id}`).emit("trackEnd")
     })
     botClient.player.on("queueEnd", (queue) => {
         const { guild } = queue
         playerNamespace.to(`subscriber-${guild.id}`).emit("queueEnd")
-    })
-    botClient.player.on("pausedChanged", (queue, state) => {
-        const { guild } = queue
-        playerNamespace.to(`subscriber-${guild.id}`).emit("pausedChanged", state)
     })
 }
 

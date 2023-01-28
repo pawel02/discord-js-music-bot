@@ -54,7 +54,7 @@ export const Player = ({ serverId }) => {
             timer = setTimeout(() => {
                 setSongProgress((songProgress) => {
                     const { currentInS, endInS } = songProgress
-                    const addToCurrent = playerData.isPaused ? 0 : 1
+                    const addToCurrent = playerData.isPaused || currentInS >= endInS ? 0 : 1
                     return {
                         currentInS: currentInS + addToCurrent,
                         endInS: endInS,
@@ -67,7 +67,7 @@ export const Player = ({ serverId }) => {
     }, [songProgress, playerData?.isPaused])
 
 
-    if (playerData?.isPaused !== undefined && playerData?.current && playerData?.isPlaying) {
+    if (playerData?.isPaused !== undefined && playerData?.current) {
         return (
             <div className='player'>
                 <div className='thumbnail-container'>
@@ -78,11 +78,11 @@ export const Player = ({ serverId }) => {
                     <div className='progress-bar' style={{width: `${songProgress?.percent}%`}}></div>
                 </div>
                 <div className='controlls'>
-                    <button className='secondary'><GrRotateLeft /></button>
+                    <button className='secondary big'><GrRotateLeft /></button>
                     <button className='play-pause-button primary' onClick={() => setPaused({ serverId, state: !playerData?.isPaused })}>
                         {playerData?.isPaused ? <GrPlayFill /> : <GrPauseFill />}
                     </button>
-                    <button onClick={() => skip({ serverId })} className='secondary'>{isSkiping ? "wait" : <MdSkipNext />}</button>
+                    <button onClick={() => skip({ serverId })} className='secondary big'>{isSkiping ? "wait" : <MdSkipNext />}</button>
                 </div>
             </div>
         )
