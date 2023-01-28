@@ -20,6 +20,6 @@ jobs:
           docker container rm premiumbot-server-prod || true
       - name: run new application
         run: |
-        cd /home/pi/discord-js-music-bot
-        docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+          cd /home/pi/discord-js-music-bot
+          docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
