@@ -6,7 +6,6 @@ const authEndpoint = axios.create({
 
 const login = async (loginKey) => {
     const response = await authEndpoint.post("/login", { code: loginKey })
-    console.log(response.data)
     if (response.data) {
         localStorage.setItem('auth', JSON.stringify(response.data))
     }

@@ -11,9 +11,6 @@ Router.get("/guilds", async (req, res) => {
         const botAndUserGuilds = req.user.guilds.filter(guild => botGuilds.get(guild.id))
         
         res.send(botAndUserGuilds)
-        await userModel.findByIdAndUpdate(req.user._id.toString(), {
-            guilds: req.user.guilds,
-        })
     } catch (error) {
         console.log(error.message)
         res.status(500).json({error: error.message})

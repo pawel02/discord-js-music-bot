@@ -18,7 +18,7 @@ export const Redirect = () => {
                 navigate("/")
             }
     })
-    }, [code, dispatch, navigate])
+    }, [code])
     
     const Content = () => {
         if(authState.pending){

@@ -26,7 +26,6 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         logout: (state, action) => {
-            console.log("log out triggered")
             localStorage.clear()
             return {
                 ...initialState,
