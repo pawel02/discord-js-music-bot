@@ -43,6 +43,7 @@ Router.post("/:serverId/setPaused", (req, res) => {
 })
 
 Router.post("/:serverId/skip", async (req, res) => {
+    console.log("skip")
     const { serverId } = req.params
 
     const guildQueue = botClient.player.getQueue(serverId)

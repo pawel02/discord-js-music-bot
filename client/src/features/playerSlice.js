@@ -74,21 +74,18 @@ const playerSlice = baseApi.injectEndpoints({
                             })
                         })
                         socket.on("tracksAdd", (tracks) => {
-                            console.log("tracks added")
                             updateCachedData((draft) => {
                                 draft.tracks = [...draft?.tracks || [], ...tracks]
                             })
                         })
                         socket.on("trackAdd", (track) => {
-                            console.log("track added")
                             updateCachedData((draft) => {
                                 draft.tracks = [...draft?.tracks || [], track]
                             })
                         })
-                        socket.on("trackStart", () => {
-                            console.log("track added")
+                        socket.on("trackStart", (track) => {
                             updateCachedData((draft) => {
-                                draft.tracks = draft.tracks.filter((t, index) => index !== 0)
+                                draft.tracks = draft.tracks.filter((t, index) => t.id !== track.id)
                             })
                         })
                         socket.on("queueEnd", () => {
