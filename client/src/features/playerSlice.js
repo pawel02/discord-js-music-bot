@@ -15,7 +15,8 @@ const playerSlice = baseApi.injectEndpoints({
                     withCredentials: true,
                     auth: {
                         token,
-                    }
+                    },
+                    reconnection: false,
                 })
                 try {
 
@@ -46,6 +47,11 @@ const playerSlice = baseApi.injectEndpoints({
                                 draft.isPlaying = false
                             })
                         })
+                        socket.on("connectionError", (error) => {
+                            updateCachedData((draft) => {
+                                draft.error = error
+                            })
+                        })
                     })
                 } catch { }
                 await cacheEntryRemoved
@@ -62,7 +68,8 @@ const playerSlice = baseApi.injectEndpoints({
                     withCredentials: true,
                     auth: {
                         token,
-                    }
+                    },
+                    reconnection: false,
                 })
                 try {
 
@@ -91,6 +98,11 @@ const playerSlice = baseApi.injectEndpoints({
                         socket.on("queueEnd", () => {
                             updateCachedData((draft) => {
                                 draft.tracks = []
+                            })
+                        })
+                        socket.on("connectionError", (error) => {
+                            updateCachedData((draft) => {
+                                draft.error = error
                             })
                         })
                     })

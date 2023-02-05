@@ -13,11 +13,6 @@ jobs:
         run: |
           cd /home/pi/discord-js-music-bot
           git pull origin --ff-only
-      - name: remove old container and images
-        run: |
-          docker container rm premiumbot-mongo-prod || true
-          docker container rm premiumbot-client-prod || true
-          docker container rm premiumbot-server-prod || true
       - name: run new application
         run: |
           cd /home/pi/discord-js-music-bot
