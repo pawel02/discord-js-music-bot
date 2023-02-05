@@ -24,6 +24,7 @@ export const Queue = ({ serverId }) => {
                     <label htmlFor='url'>Add a song to the queue</label>
                     <input disabled={isTrackAdding} name="url" type={"url"} placeholder="youtube song url" />
                     {addTrackError?.data !== "OK" && <p className='error'>{addTrackError?.data?.error || addTrackError?.status}</p>}
+                    {queryData?.error ? <p className='error'>{queryData.error}</p> : null}
                 </form>
             </div>
             <ul>

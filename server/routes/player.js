@@ -43,14 +43,23 @@ Router.post("/:serverId/setPaused", (req, res) => {
 })
 
 Router.post("/:serverId/skip", async (req, res) => {
-    console.log("skip")
-    const { serverId } = req.params
+    try {
+        const { serverId } = req.params
 
-    const guildQueue = botClient.player.getQueue(serverId)
+        const guildQueue = botClient.player.getQueue(serverId)
+        const isPaused = guildQueue?.connection?.audioPlayer?.state.status !== "playing"
 
-    if (!guildQueue) return res.sendStatus(200)
-    await guildQueue.skip()
-    res.sendStatus(200)
+        if (!guildQueue) throw new Error("Die Warteschlange ist leer")
+        if(isPaused) guildQueue.setPaused(false)
+        guildQueue.skip()
+        if (guildQueue.tracks.length > 0) {
+            botClient.player.once("trackStart", (queue, track) => {
+                res.sendStatus(200)
+            })
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
 })
 
 Router.put("/:serverId/addTrack", async (req, res) => {
@@ -114,6 +123,10 @@ const eventEmitter = (playerNamespace, io) => {
     botClient.player.on("queueEnd", (queue) => {
         const { guild } = queue
         playerNamespace.to(`subscriber-${guild.id}`).emit("queueEnd")
+    })
+    botClient.player.on("connectionError", (queue, error) => {
+        const { guild } = queue
+        playerNamespace.to(`subscriber-${guild.id}`).emit("connectionError", error.message)
     })
 }
 
