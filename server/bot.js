@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Collection, Routes, REST } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, Routes, REST, ActivityType } = require('discord.js');
 const { Player } = require("discord-player")
 
 const fs = require('fs');
@@ -32,6 +32,9 @@ client.player = new Player(client, {
 })
 
 client.on("ready", () => {
+    client.user.setPresence({
+        activities: [{ name: `https://bot.premiumag.de/`, type: ActivityType.Custom }]
+      });
     // Get all ids of the servers
     rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
         { body: commands })
