@@ -1,0 +1,20 @@
+name: Auto update docker
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  download-deploy-files:
+    name: Download and run image on ssh client
+    runs-on: self-hosted
+    steps:
+      - name: update local files
+        run: |
+          cd /home/pi/discord-js-music-bot
+          git pull origin --ff-only
+      - name: run new application
+        run: |
+          cd /home/pi/discord-js-music-bot
+          docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+

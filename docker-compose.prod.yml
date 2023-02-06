@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo:4.4.18
+    container_name: premiumbot-mongo-prod
+    restart: unless-stopped
+  server:
+    build: 
+      dockerfile: Dockerfile.prod
+    container_name: premiumbot-server-prod
+    restart: unless-stopped
+    ports:
+      - 8081:8081
+    env_file:
+      - ./server/.env.prod
+  client:
+    build: 
+      dockerfile: Dockerfile.prod
+    container_name: premiumbot-client-prod
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    env_file:
+      - ./client/.env.production
